@@ -1,0 +1,153 @@
+digraph LogicalDatabaseModel {
+    node [shape=none, fontname="Helvetica"];
+    edge [fontname="Helvetica"];
+
+    rankdir=LR;
+
+    // KUNDE
+    KUNDE [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>KUNDE</b></td></tr>
+        <tr><td port="pk"><u>ID_Kunde (PK)</u></td></tr>
+        <tr><td>Kundenname</td></tr>
+        <tr><td>Kundennummer</td></tr>
+        <tr><td>Versandzone</td></tr>
+    </table>
+    >];
+
+    // WERKSTOFF
+    WERKSTOFF [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>WERKSTOFF</b></td></tr>
+        <tr><td port="pk"><u>ID_Werkstoff (PK)</u></td></tr>
+        <tr><td>Werkstoff</td></tr>
+        <tr><td>Werkstofftyp</td></tr>
+        <tr><td>Werkstoffspreis</td></tr>
+        <tr><td>Dichte</td></tr>
+    </table>
+    >];
+
+    // TAFELN
+    TAFELN [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>TAFELN</b></td></tr>
+        <tr><td port="pk"><u>ID_Tafel (PK)</u></td></tr>
+        <tr><td>TafelLänge</td></tr>
+        <tr><td>TafelBreite</td></tr>
+        <tr><td>Dicke</td></tr>
+        <tr><td>Einkauf_Kg</td></tr>
+        <tr><td>Gedreht</td></tr>
+        <tr><td port="fk_werkstoff">Werkstoff_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // AUFTRAG
+    AUFTRAG [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>AUFTRAG</b></td></tr>
+        <tr><td port="pk"><u>ID_Angebot (PK)</u></td></tr>
+        <tr><td>Angebot</td></tr>
+        <tr><td>Date</td></tr>
+        <tr><td>Ges_Preis</td></tr>
+        <tr><td>Ges_Zeit</td></tr>
+        <tr><td>ErstelltVon</td></tr>
+        <tr><td port="fk_kunde">Kunde_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // Maschine
+    Maschine [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>Maschine</b></td></tr>
+        <tr><td port="pk"><u>ID_Maschine (PK)</u></td></tr>
+        <tr><td>Maschinenname</td></tr>
+        <tr><td>Bearbeitungstyp</td></tr>
+        <tr><td>Verschnitt</td></tr>
+        <tr><td>Vorschub</td></tr>
+        <tr><td>AbdampfenVorschub</td></tr>
+        <tr><td>Abdampfen</td></tr>
+    </table>
+    >];
+
+    // ARBEITSSCHRITTKENNUNG
+    ARBEITSSCHRITTKENNUNG [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>ARBEITSSCHRITTKENNUNG</b></td></tr>
+        <tr><td port="pk"><u>ID_Arbeitsschrittkennung (PK)</u></td></tr>
+        <tr><td>Arbeitsschritt</td></tr>
+        <tr><td>Kuerzel</td></tr>
+        <tr><td port="fk_maschine">Maschine_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // ARBEITSSCHRITT
+    ARBEITSSCHRITT [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>ARBEITSSCHRITT</b></td></tr>
+        <tr><td port="pk"><u>ID_Arbeitsschritt (PK)</u></td></tr>
+        <tr><td>Ruesten</td></tr>
+        <tr><td>Bearbeitungszeit</td></tr>
+        <tr><td>Gesamtzeit</td></tr>
+        <tr><td>Marge</td></tr>
+        <tr><td>StundensatzRuesten</td></tr>
+        <tr><td>StundensatzOperation</td></tr>
+        <tr><td port="fk_kennung">Arbeitsschrittkennung_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // ARTIKEL
+    ARTIKEL [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>ARTIKEL</b></td></tr>
+        <tr><td port="pk"><u>ID_Artikel (PK)</u></td></tr>
+        <tr><td>Artikelnummer</td></tr>
+        <tr><td>Pos</td></tr>
+        <tr><td>BenötigteTafeln</td></tr>
+        <tr><td>Menge</td></tr>
+        <tr><td>Artikeltext</td></tr>
+        <tr><td>Stückpreis</td></tr>
+        <tr><td>Ben_Fläche</td></tr>
+        <tr><td>Gewicht</td></tr>
+        <tr><td>Umfang</td></tr>
+        <tr><td>Länge</td></tr>
+        <tr><td>Breite</td></tr>
+        <tr><td>Symmetrie</td></tr>
+        <tr><td>Bild</td></tr>
+        <tr><td>Kommentar</td></tr>
+        <tr><td>Params</td></tr>
+        <tr><td port="fk_angebot">Angebot_ID (FK)</td></tr>
+        <tr><td port="fk_tafel">Tafel_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // ARTIKEL_ARBEITSSCHRITT
+    ARTIKEL_ARBEITSSCHRITT [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>ARTIKEL_ARBEITSSCHRITT</b></td></tr>
+        <tr><td port="pk"><u>ID_Artikel_Arbeitsschritt (PK)</u></td></tr>
+        <tr><td port="fk_artikel">Artikel_ID (FK)</td></tr>
+        <tr><td port="fk_schritt">Arbeitsschritt_ID (FK)</td></tr>
+    </table>
+    >];
+
+    // ARTIKEL_TAFELN_MM
+    ARTIKEL_TAFELN_MM [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="lightblue"><b>ARTIKEL_TAFELN_MM</b></td></tr>
+        <tr><td port="fk_artikel"><u>Artikel_ID (PK, FK)</u></td></tr>
+        <tr><td port="fk_tafel"><u>Tafel_ID (PK, FK)</u></td></tr>
+    </table>
+    >];
+
+    // Relationships (Foreign Keys)
+    TAFELN:fk_werkstoff -> WERKSTOFF:pk [dir=back, arrowtail=crow, arrowhead=none];
+    AUFTRAG:fk_kunde -> KUNDE:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARBEITSSCHRITTKENNUNG:fk_maschine -> Maschine:pk [dir=back, arrowtail=crow, arrowhead=none]; // 0..N
+    ARBEITSSCHRITT:fk_kennung -> ARBEITSSCHRITTKENNUNG:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL:fk_angebot -> AUFTRAG:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL:fk_tafel -> TAFELN:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL_ARBEITSSCHRITT:fk_artikel -> ARTIKEL:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL_ARBEITSSCHRITT:fk_schritt -> ARBEITSSCHRITT:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL_TAFELN_MM:fk_artikel -> ARTIKEL:pk [dir=back, arrowtail=crow, arrowhead=none];
+    ARTIKEL_TAFELN_MM:fk_tafel -> TAFELN:pk [dir=back, arrowtail=crow, arrowhead=none];
+}
