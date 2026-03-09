@@ -1,0 +1,59 @@
+graph ConceptualDatabaseModel {
+    node [shape=box, style=filled, fillcolor=lightblue, fontname="Helvetica"];
+    edge [fontname="Helvetica"];
+
+    rankdir=LR;
+
+    // Entities
+    KUNDE [label="KUNDE"];
+    WERKSTOFF [label="WERKSTOFF"];
+    TAFELN [label="TAFELN"];
+    AUFTRAG [label="AUFTRAG"];
+    MASCHINE [label="Maschine"];
+    ARBEITSSCHRITTKENNUNG [label="ARBEITSSCHRITTKENNUNG"];
+    ARBEITSSCHRITT [label="ARBEITSSCHRITT"];
+    ARTIKEL [label="ARTIKEL"];
+
+    // Relationships (Diamonds)
+    node [shape=diamond, style=filled, fillcolor=lightyellow];
+    BESTELLT [label="bestellt"];
+    BESTEHT_AUS [label="besteht aus"];
+    ENTHAELT [label="enthält"];
+    WIRD_BEARBEITET_AUF [label="wird bearbeitet\nauf"];
+    DEFINIERT [label="definiert"];
+    HAT_ARBEITSSCHRITT [label="hat Arbeitsschritt"];
+    WIRD_GEFERTIGT_AUS [label="wird gefertigt\naus"];
+
+    // Connections between Entities and Relationships (with cardinality)
+    KUNDE -- BESTELLT [label="1"];
+    BESTELLT -- AUFTRAG [label="n"];
+
+    WERKSTOFF -- BESTEHT_AUS [label="1"];
+    BESTEHT_AUS -- TAFELN [label="n"];
+
+    AUFTRAG -- ENTHAELT [label="1"];
+    ENTHAELT -- ARTIKEL [label="n"];
+
+    MASCHINE -- WIRD_BEARBEITET_AUF [label="1"];
+    WIRD_BEARBEITET_AUF -- ARBEITSSCHRITTKENNUNG [label="n (0..n)"];
+
+    ARBEITSSCHRITTKENNUNG -- DEFINIERT [label="1"];
+    DEFINIERT -- ARBEITSSCHRITT [label="n"];
+
+    ARTIKEL -- HAT_ARBEITSSCHRITT [label="m"];
+    HAT_ARBEITSSCHRITT -- ARBEITSSCHRITT [label="n"];
+
+    ARTIKEL -- WIRD_GEFERTIGT_AUS [label="m"];
+    WIRD_GEFERTIGT_AUS -- TAFELN [label="n"];
+
+    // Also Artikel is linked to exactly 1 Tafel via Tafel_ID in ARTIKEL table,
+    // but the task mentions "mind. 2 m:m-Beziehungen", which are:
+    // ARTIKEL_ARBEITSSCHRITT (Artikel <-> Arbeitsschritt)
+    // ARTIKEL_TAFELN_MM (Artikel <-> Tafeln)
+
+    // Additional relation (1:n) from Tafel to Artikel (from ARTIKEL.Tafel_ID)
+    node [shape=diamond, style=filled, fillcolor=lightyellow];
+    HAUPT_MATERIAL [label="Hauptmaterial"];
+    TAFELN -- HAUPT_MATERIAL [label="1"];
+    HAUPT_MATERIAL -- ARTIKEL [label="n"];
+}
