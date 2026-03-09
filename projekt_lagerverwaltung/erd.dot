@@ -1,0 +1,126 @@
+digraph erd {
+    node [shape=none, fontname="Helvetica,Arial,sans-serif", margin=0];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=10, dir=both, arrowtail=none, arrowhead=none];
+    rankdir=LR;
+
+    // Tables
+    KUNDE [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#ffdd99"><b>KUNDE</b></td></tr>
+        <tr><td align="left"><u>PK ID_Kunde</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Kundenname VARCHAR(50) NOT NULL</td></tr>
+        <tr><td align="left">Kundennummer INT UNIQUE NOT NULL</td></tr>
+        <tr><td align="left">Versandzone VARCHAR(20) DEFAULT</td></tr>
+    </table>>];
+
+    WERKSTOFF [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#d3d3d3"><b>WERKSTOFF</b></td></tr>
+        <tr><td align="left"><u>PK ID_Werkstoff</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Werkstoff VARCHAR(25) NOT NULL</td></tr>
+        <tr><td align="left">Werkstofftyp VARCHAR(25) NOT NULL</td></tr>
+        <tr><td align="left">Werkstoffspreis FLOAT (CHECK &gt;= 0)</td></tr>
+        <tr><td align="left">Dichte FLOAT (CHECK &gt; 0)</td></tr>
+    </table>>];
+
+    TAFELN [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#d3d3d3"><b>TAFELN</b></td></tr>
+        <tr><td align="left"><u>PK ID_Tafel</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">TafelLänge INT NOT NULL</td></tr>
+        <tr><td align="left">TafelBreite INT NOT NULL</td></tr>
+        <tr><td align="left">Dicke INT NOT NULL</td></tr>
+        <tr><td align="left">Einkauf_Kg FLOAT</td></tr>
+        <tr><td align="left">Gedreht FLOAT</td></tr>
+        <tr><td align="left">FK Werkstoff_ID INT NOT NULL</td></tr>
+    </table>>];
+
+    AUFTRAG [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#ffdd99"><b>AUFTRAG</b></td></tr>
+        <tr><td align="left"><u>PK ID_Angebot</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Angebot VARCHAR(50) NOT NULL</td></tr>
+        <tr><td align="left">Date DATETIME NOT NULL</td></tr>
+        <tr><td align="left">Ges_Preis FLOAT (CHECK &gt;= 0)</td></tr>
+        <tr><td align="left">Ges_Zeit TIME</td></tr>
+        <tr><td align="left">ErstelltVon VARCHAR(50)</td></tr>
+        <tr><td align="left">FK Kunde_ID INT NOT NULL</td></tr>
+    </table>>];
+
+    Maschine [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#b3d9ff"><b>Maschine</b></td></tr>
+        <tr><td align="left"><u>PK ID_Maschine</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Maschinenname VARCHAR(50) NOT NULL</td></tr>
+        <tr><td align="left">Bearbeitungstyp VARCHAR(50) NOT NULL</td></tr>
+        <tr><td align="left">Verschnitt FLOAT</td></tr>
+        <tr><td align="left">Vorschub VARCHAR(5)</td></tr>
+        <tr><td align="left">AbdampfenVorschub INT</td></tr>
+        <tr><td align="left">Abdampfen INT</td></tr>
+    </table>>];
+
+    ARBEITSSCHRITTKENNUNG [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#99e699"><b>ARBEITSSCHRITTKENNUNG</b></td></tr>
+        <tr><td align="left"><u>PK ID_Arbeitsschrittkennung</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Arbeitsschritt VARCHAR(50) NOT NULL</td></tr>
+        <tr><td align="left">Kuerzel VARCHAR(25) UNIQUE NOT NULL</td></tr>
+        <tr><td align="left">FK Maschine_ID INT (NULL, c:m)</td></tr>
+    </table>>];
+
+    ARBEITSSCHRITT [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#99e699"><b>ARBEITSSCHRITT</b></td></tr>
+        <tr><td align="left"><u>PK ID_Arbeitsschritt</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Ruesten TIME</td></tr>
+        <tr><td align="left">Bearbeitungszeit TIME</td></tr>
+        <tr><td align="left">Gesamtzeit TIME</td></tr>
+        <tr><td align="left">Marge VARCHAR(5)</td></tr>
+        <tr><td align="left">StundensatzRuesten FLOAT</td></tr>
+        <tr><td align="left">StundensatzOperation FLOAT</td></tr>
+        <tr><td align="left">FK Arbeitsschrittkennung_ID INT NOT NULL</td></tr>
+    </table>>];
+
+    ARTIKEL [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#e6ccff"><b>ARTIKEL</b></td></tr>
+        <tr><td align="left"><u>PK ID_Artikel</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">Artikelnummer VARCHAR(100) UNIQUE NOT NULL</td></tr>
+        <tr><td align="left">Pos INT</td></tr>
+        <tr><td align="left">BenötigteTafeln INT</td></tr>
+        <tr><td align="left">Menge INT (CHECK &gt; 0)</td></tr>
+        <tr><td align="left">Artikeltext VARCHAR(100)</td></tr>
+        <tr><td align="left">Stückpreis FLOAT (CHECK &gt;= 0)</td></tr>
+        <tr><td align="left">Ben_Fläche FLOAT</td></tr>
+        <tr><td align="left">Gewicht FLOAT</td></tr>
+        <tr><td align="left">Umfang INT</td></tr>
+        <tr><td align="left">Länge INT</td></tr>
+        <tr><td align="left">Breite INT</td></tr>
+        <tr><td align="left">Symmetrie INT</td></tr>
+        <tr><td align="left">Bild VARCHAR(255)</td></tr>
+        <tr><td align="left">Kommentar TEXT</td></tr>
+        <tr><td align="left">Params VARCHAR(100)</td></tr>
+        <tr><td align="left">FK Angebot_ID INT NOT NULL</td></tr>
+        <tr><td align="left">FK Tafel_ID INT NOT NULL</td></tr>
+    </table>>];
+
+    ARTIKEL_ARBEITSSCHRITT [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#e6ccff"><b>ARTIKEL_ARBEITSSCHRITT (m:m)</b></td></tr>
+        <tr><td align="left"><u>PK ID_Artikel_Arbeitsschritt</u> INT (AUTO_INCREMENT)</td></tr>
+        <tr><td align="left">FK Artikel_ID INT NOT NULL</td></tr>
+        <tr><td align="left">FK Arbeitsschritt_ID INT NOT NULL</td></tr>
+    </table>>];
+
+    ARTIKEL_TAFELN_MM [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        <tr><td bgcolor="#e6ccff"><b>ARTIKEL_TAFELN_MM (m:m)</b></td></tr>
+        <tr><td align="left"><u>PK,FK Artikel_ID</u> INT NOT NULL</td></tr>
+        <tr><td align="left"><u>PK,FK Tafel_ID</u> INT NOT NULL</td></tr>
+    </table>>];
+
+    // Relationships (Crow's Foot style)
+    KUNDE -> AUFTRAG [arrowhead=crow, arrowtail=teetee];
+    WERKSTOFF -> TAFELN [arrowhead=crow, arrowtail=teetee];
+    TAFELN -> ARTIKEL [arrowhead=crow, arrowtail=teetee];
+    AUFTRAG -> ARTIKEL [arrowhead=crow, arrowtail=teetee];
+    Maschine -> ARBEITSSCHRITTKENNUNG [arrowhead=crow, arrowtail=teeodot]; // c:m
+    ARBEITSSCHRITTKENNUNG -> ARBEITSSCHRITT [arrowhead=crow, arrowtail=teetee];
+
+    // M:M relationships
+    ARTIKEL -> ARTIKEL_ARBEITSSCHRITT [arrowhead=crow, arrowtail=teetee];
+    ARBEITSSCHRITT -> ARTIKEL_ARBEITSSCHRITT [arrowhead=crow, arrowtail=teetee];
+
+    ARTIKEL -> ARTIKEL_TAFELN_MM [arrowhead=crow, arrowtail=teetee];
+    TAFELN -> ARTIKEL_TAFELN_MM [arrowhead=crow, arrowtail=teetee];
+}
