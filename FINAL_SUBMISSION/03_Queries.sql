@@ -118,3 +118,33 @@ SELECT
     Verschnitt
 FROM Maschine
 WHERE Verschnitt > 2.0;
+
+
+-- 11. Abfrage: Artikel über dem durchschnittlichen Stückpreis
+SELECT
+    Artikelnummer,
+    Artikeltext,
+    Stückpreis
+FROM ARTIKEL
+WHERE Stückpreis > (
+    SELECT AVG(Stückpreis)
+    FROM ARTIKEL
+)
+ORDER BY Stückpreis DESC;
+
+-- 12. Aufträge mit besonders dicken Tafeln (Verschachtelter Subselect)
+SELECT
+    Angebot AS Angebotsnummer,
+    Date AS Datum,
+    Ges_Preis,
+    ErstelltVon
+FROM AUFTRAG
+WHERE ID_Angebot IN (
+    SELECT Angebot_ID
+    FROM ARTIKEL
+    WHERE Tafel_ID IN (
+        SELECT ID_Tafel
+        FROM TAFELN
+        WHERE Dicke > 10
+    )
+);
